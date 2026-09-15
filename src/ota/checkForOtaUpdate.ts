@@ -6,7 +6,7 @@ export function checkForOtaUpdate(): void {
     return;
   }
 
-  if (!OTA_GIT_URL || OTA_GIT_URL.includes('AnirudhKudikala')) {
+  if (!OTA_GIT_URL || OTA_GIT_URL.includes('<your-username>')) {
     console.warn(
       'OTA Git URL is not configured. Set OTA_GIT_URL in src/ota/config.ts.',
     );
@@ -26,6 +26,12 @@ export function checkForOtaUpdate(): void {
         ? 'output/main.jsbundle'
         : 'output/index.android.bundle',
     restartAfterInstall: true,
+    onCloneSuccess: () => {
+      console.log('OTA clone succeeded, restarting');
+    },
+    onPullSuccess: () => {
+      console.log('OTA pull succeeded, restarting');
+    },
     onCloneFailed: (msg: string) => {
       console.error('OTA clone failed', msg);
     },
